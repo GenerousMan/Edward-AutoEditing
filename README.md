@@ -1,5 +1,7 @@
 # Edward(飞影/Cut Mins) - Automatic Reference-Based Video Editing with Pose Style Transfer
 
+![image](https://github.com/GenerousMan/Edward-AutoEditing/blob/master/api-center/public/img/System.jpg)
+
 ## Platform overview
 
 **Edward(飞影/Cut Mins)**. Current version is designed to display in the exhibition hall. We have made a lot of optimization in the interaction. The core function is not changed much compared with the previous version in the paper. To simplify the content of the system, no customized modification function has been added to the new version of the interface, but the old version of the system (including editing customized modification) can still be accessed in the code of this version. Most interfaces share the same set of APIs with the new system. But because the algorithm backend only occupies one GPU, the new and old platforms will share a GPU lock when using the algorithm backend API at the same time, causing one side to wait.
