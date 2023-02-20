@@ -1,0 +1,70 @@
+#main {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#steps {
+    margin-bottom: 30px;
+}
+
+#input {
+    display: none;
+}
+
+.el-card {
+    position: relative;
+    margin-bottom: 24px;
+    height: 200px;
+}
+
+.el-card .el-image {
+    height: 200px;
+}
+
+.el-icon-arrow-right {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+#cards-box{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#cards-box .el-card{
+    width: 48%;
+    height: 360px;
+}
+
+#cards-box .video-box {
+    width: 100%;
+    height: 360px;
+}
+
+#cards-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: rgb(34, 34, 34);
+    outline: none;
+    border-radius: 4px;
+}
+
+#cards-box .progress-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: top 500ms ease-out;
+}
+
+#cards-box .progress-box .el-progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -63px;
+    margin-left: -63px;
+}

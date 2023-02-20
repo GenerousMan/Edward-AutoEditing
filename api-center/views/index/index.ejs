@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit</title>
+        <!-- 引入Element UI样式 -->
+        <link rel="stylesheet" href="tools/element-ui@2-13-2-index.css">
+        <link rel="stylesheet" href="css/global.css">
+        <link rel="stylesheet" href="css/header.css">
+        <link rel="stylesheet" href="css/index/index.css">
+        <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    </head>
+    <body>
+        <div id="app">
+            <!-- <el-container> -->
+                <div id="header">
+                    <el-row>
+                        <el-col id="adaptive-header" :span="16" :offset="4">
+                            <img id="logo" src="img/logo.png"/>
+                            <el-menu id="header-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+                                <el-menu-item index="/">首页</el-menu-item>
+                                <el-menu-item index="/edit">自动剪辑</el-menu-item>
+                            </el-menu>
+                        </el-col>
+                      </el-row>
+                </div>
+                <div id="main">
+                    
+                </div>
+            <!-- </el-container> -->
+        </div>
+    </body>
+    <!-- 引入Vue库 -->
+    <script src="tools/vue@2-6-11.js"></script>
+    <script src="tools/axios@0-19-2.js"></script> 
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <!-- 引入Element UI组件库 -->
+    <script src="tools/element-ui@2-13-2-index.js"></script>
+    <!-- 引入页面脚本 -->
+    <script src="js/index/index.js"></script>
+</html>

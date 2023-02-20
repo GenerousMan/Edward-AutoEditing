@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit</title>
+        <!-- 引入Element UI样式 -->
+        <link rel="stylesheet" href="/tools/element-ui@2-13-2-index.css">
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/edit/video-cloth-ads/editor.css">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    </head>
+    <body>
+        <div id="app" v-loading.fullscreen.lock="loading" element-loading-text="剪辑数据获取中">
+            <div id="header">
+                <el-row>
+                    <el-col id="adaptive-header" :span="16" :offset="4">
+                        <img id="logo" src="/img/logo.png"/>
+                        <el-menu id="header-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+                            <el-menu-item index="/">首页</el-menu-item>
+                            <el-menu-item index="/edit">自动剪辑</el-menu-item>
+                        </el-menu>
+                    </el-col>
+                </el-row>
+            </div>
+            <div id="main">
+                <el-row>
+                    <el-col :span="16" :offset="4">
+                        <el-steps id="steps" :active="3" finish-status="success" simple>
+                            <el-step title="上传素材"></el-step>
+                            <el-step title="素材预处理"></el-step>
+                            <el-step title="选择案例"></el-step>
+                            <el-step title="自定义修改"></el-step>
+                            <el-step title="生成视频"></el-step>
+                        </el-steps>
+                        <el-row>
+                            <el-col :span="3" class="controls">
+                                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                                    <el-image src="/img/1.jpg" fit="cover"></el-image>
+                                </el-card>
+                                <el-row>
+                                    <el-button @click="back" icon="el-icon-back">返回选择</el-button>
+                                </el-row>
+                                <el-row>
+                                    <el-button @click="save" icon="el-icon-box" :loading="saveLoading">保存剪辑</el-button>
+                                </el-row>
+                                <el-row>
+                                    <el-button @click="saveAndGenerate" type="primary" icon="el-icon-video-camera" :loading="sagLoading">保存并生成视频</el-button>
+                                </el-row>
+                            </el-col>
+                            <el-col :span="19" :offset="1">
+                                <el-row>
+                                    <el-col :span="10">
+                                        <el-card class="preview-card" :body-style="{ padding: '0px' }" shadow="hover">
+                                            <div class="preview">
+                                                <transition name="fade">
+                                                    <div class="no-choose-text" v-show="choose == -1">
+                                                        <i class="el-icon-bottom"></i> 选择一个镜头进行编辑
+                                                    </div>
+                                                </transition>
+                                                <video id="preview-player" controls type="video/mp4"></video>
+                                            </div>
+                                        </el-card>
+                                    </el-col>
+                                    <el-col :span="7" :offset="1">
+                                        <el-card class="preview-card" :body-style="{ padding: '0px' }" shadow="hover">
+                                            <div class="preview-all">
+                                                <el-row>
+                                                    <transition name="fade">
+                                                        <div class="no-preview-all" v-show="!previewAllVideo">
+                                                            <i class="el-icon-document-remove"></i> 还没有预览视频
+                                                        </div>
+                                                    </transition>
+                                                    <video id="preview-all-player" controls type="video/mp4"></video>
+                                                </el-row>
+                                                <el-row><el-button disabled icon="el-icon-camera">预渲染子镜头</el-button></el-row>
+                                                <el-row><el-button @click="previewAll" :loading="previewLoading" icon="el-icon-video-camera">预渲染完整视频</el-button></el-row>
+                                            </div>
+                                        </el-card>
+                                    </el-col>
+                                    <el-col :span="5" :offset="1" class="pannel">
+                                        <el-card class="empty" :body-style="{ padding: '0px' }" shadow="hover">
+                                            <i class="el-icon-brush"></i>施工中
+                                        </el-card>
+                                    </el-col>
+                                </el-row>
+                                <div class="title">剪辑镜头序列</div>
+                                <div class="sub">选择镜头进行自定义修改，比如替换镜头等操作。</div>
+                                <div class="shot-select-box">
+                                    <div class="shot-select">
+                                        <el-card class="shot" :body-style="{ padding: '0px' }" shadow="hover" v-for="(shot, index) in shotLine" :key="'shot-' + shot.id" :class="{choose: haveChoose(index), 'not-choose': notChoose(index)}">
+                                            <el-image :id="'preview-image-' + index" :src="shot.thumbnail" fit="cover" @click="chooseShot(index, shot)"></el-image>
+                                        </el-card>
+                                    </div>
+                                    <div class="shot-index-box">
+                                        <div class="shot-index" v-for="(shot, index) in shotLine" :key="'index-'+shot.id" :class="{choose: haveChoose(index), 'not-choose': notChoose(index)}">{{index + 1}}</div>
+                                    </div>
+                                </div>
+                                <transition name="fade">
+                                    <div v-if="choose != -1">
+                                        <div class="title">选中镜头的备选镜头</div>
+                                        <div class="sub">可以选择一个备选镜头替换剪辑中的镜头。</div>
+                                        <div class="shot-select-box">
+                                            <!-- <div class="shot-select"> -->
+                                                <transition-group name="fade" tag="div" class="shot-select">
+                                                    <el-card class="shot" :body-style="{ padding: '0px' }" shadow="hover" v-for="(shot, index) in candidates[choose]" :key="'cand-' + shot.id" :class="{choose: haveCandiChoose(index), 'not-choose': notCandiChoose(index)}">
+                                                        <el-image :src="shot.thumbnail" fit="cover" @click="chooseCandidate(index, shot)"></el-image>
+                                                    </el-card>
+                                                </transition-group>
+                                            <!-- </div> -->
+                                        </div>
+                                    </div>
+                                </transition>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+    </body>
+    <!-- 引入Vue库 -->
+    <script src="/tools/vue@2-6-11.js"></script>
+    <script src="/tools/axios@0-19-2.js"></script>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <!-- 引入Element UI组件库 -->
+    <script src="/tools/element-ui@2-13-2-index.js"></script>
+    <!-- 引入页面脚本 -->
+    <script src="/js/edit/video-cloth-ads/editor.js"></script>
+</html>

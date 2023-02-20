@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit</title>
+        <!-- 引入Element UI样式 -->
+        <link rel="stylesheet" href="/tools/element-ui@2-13-2-index.css">
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/edit/video-cloth-ads/match.css">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    </head>
+    <body>
+        <div id="app" v-loading.fullscreen.lock="loading" element-loading-text="高清视频生成中">
+            <div id="header">
+                <el-row>
+                    <el-col id="adaptive-header" :span="16" :offset="4">
+                        <img id="logo" src="/img/logo.png"/>
+                        <el-menu id="header-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+                            <el-menu-item index="/">首页</el-menu-item>
+                            <el-menu-item index="/edit">自动剪辑</el-menu-item>
+                        </el-menu>
+                    </el-col>
+                </el-row>
+            </div>
+            <div id="main" v-loading.fullscreen.lock="editLoading" element-loading-text="剪辑环境准备中">
+                <el-row>
+                    <el-col :span="16" :offset="4">
+                        <el-steps id="steps" :active="2" finish-status="success" simple>
+                            <el-step title="上传素材"></el-step>
+                            <el-step title="素材预处理"></el-step>
+                            <el-step title="选择案例"></el-step>
+                            <el-step title="自定义修改"></el-step>
+                            <el-step title="生成视频"></el-step>
+                        </el-steps>
+                        <el-row>
+                            <el-col :span="8">
+                                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                                    <el-image src="/img/1.jpg" fit="cover"></el-image>
+                                </el-card>
+                                <el-row>
+                                    <!-- <el-button disabled icon="el-icon-loading">剩余时间：300s</el-button>
+                                    <el-button @click="standBy">暂时离开</el-button>
+                                    <el-button @click="cancelTask" type="danger" icon="el-icon-delete">取消任务</el-button> -->
+                                </el-row>
+                            </el-col>
+                            <el-col :span="15" :offset="1">
+                                <el-card class="match-card" :body-style="{ padding: '0px' }" shadow="hover" v-for="match in matchResult" :key="match.template">
+                                    <el-tabs tab-position="right" style="height: 300px;" type="border-card">
+                                        <el-tab-pane label="视频预览">
+                                            <div class="card-body">
+                                                <div class="template-video">
+                                                    <video :src="match.template_video" type="video/mp4" controls>
+                                                </div>
+                                                <div class="icon-box">
+                                                    <i class="el-icon-video-camera-solid"></i>
+                                                </div>
+                                                <div class="preview-video">
+                                                    <video :src="match.result_video" type="video/mp4" controls>
+                                                </div>
+                                            </div>
+                                        </el-tab-pane>
+                                        <el-tab-pane label="镜头比对">
+                                            <div class="compare-body">
+                                                <div class="compare-box">
+                                                    <div class="shot-compare" v-for="(tt, index) in match.template_thumbnails">
+                                                        <div class="shot-index">
+                                                            镜头{{index + 1}}
+                                                        </div>
+                                                        <div class="shot-origin">
+                                                            <el-image :src="tt" fit="contain"></el-image>
+                                                        </div>
+                                                        <div class="shot-preview">
+                                                            <el-image :src="match.result_thumbnails[index]" fit="contain"></el-image>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </el-tab-pane>
+                                        <el-tab-pane label="匹配报告">
+                                            <div class="info">
+                                                <el-row>
+                                                    <el-col :span="7">
+                                                        <div class="title">总体：<span class="percent">{{match.simi}}%</span></div>
+                                                        <div class="sub">反映素材剪辑子镜头和案例镜头的各特征匹配的总体情况。</div>
+                                                        <div class="title">景别：<span class="percent">{{match.view_simi}}%</span></div>
+                                                        <div class="sub">反映素材剪辑子镜头和案例镜头的景别匹配的情况。</div>
+                                                    </el-col>
+                                                    <el-col :span="7" :offset="1">
+                                                        <div class="title">姿势：<span class="percent">{{match.pose_simi}}%</span></div>
+                                                        <div class="sub">反映素材剪辑子镜头和案例镜头的主体姿势匹配的情况。</div>
+                                                        <div class="title">朝向：<span class="percent">{{match.direction_simi}}%</span></div>
+                                                        <div class="sub">反映素材剪辑子镜头和案例镜头的主体朝向匹配的情况。</div>
+                                                    </el-col>
+                                                    <el-col :span="7" :offset="1">
+                                                        <div class="title">运动强度：<span class="percent">{{match.motion_simi}}%</span></div>
+                                                        <div class="sub">反映素材剪辑子镜头和案例镜头的主体运动强度匹配的情况。</div>
+                                                        <!-- <div class="title">F匹配度：<span class="percent">60%</span></div>
+                                                        <div class="sub">一些关于匹配度的描述一些关于匹配度的描述一些关于匹配度的描述一些关于匹配度的。</div> -->
+                                                    </el-col>
+                                                </el-row>
+                                            </div>
+                                        </el-tab-pane>
+                                        <el-tab-pane label="选择案例">
+                                            <div class="select">
+                                                <div class="title">
+                                                    选择案例
+                                                </div>
+                                                <div class="sub">
+                                                    选择案例进行进一步的自定义修改和结果生成，也可以直接进行生成和下载。
+                                                </div>
+                                                <div class="btn-group">
+                                                    <el-button type="primary" @click="customModifi(match.template)">自定义修改</el-button>
+                                                    <el-button @click="generateVideo(match.template)">直接生成视频</el-button>
+                                                </div>
+                                            </div>
+                                        </el-tab-pane>
+                                      </el-tabs>
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+    </body>
+    <!-- 引入Vue库 -->
+    <script src="/tools/vue@2-6-11.js"></script>
+    <script src="/tools/axios@0-19-2.js"></script> 
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <!-- 引入Element UI组件库 -->
+    <script src="/tools/element-ui@2-13-2-index.js"></script>
+    <!-- 引入页面脚本 -->
+    <script src="/js/edit/video-cloth-ads/match.js"></script>
+</html>

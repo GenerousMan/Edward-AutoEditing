@@ -1,0 +1,38 @@
+/* #app {
+    height: 100%;
+    overflow: hidden;
+} */
+
+#main {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.page {
+    position: relative;
+    height: 600px;
+    margin-top: 36px;
+    margin-bottom: 36px;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+.title {
+    font-size: 24px;
+    margin: 16px;
+}
+
+.sub {
+    margin: 12px;
+}
+
+.center-box {
+    position: absolute;
+    margin: 0 auto;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -100px;
+}
+
+

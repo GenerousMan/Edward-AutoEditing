@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit</title>
+        <!-- 引入Element UI样式 -->
+        <link rel="stylesheet" href="/tools/element-ui@2-13-2-index.css">
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/edit/video-cloth-ads/upload.css">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    </head>
+    <body>
+        <div id="app">
+            <div id="header">
+                <el-row>
+                    <el-col id="adaptive-header" :span="16" :offset="4">
+                        <img id="logo" src="/img/logo.png"/>
+                        <el-menu id="header-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+                            <el-menu-item index="/">首页</el-menu-item>
+                            <el-menu-item index="/edit">自动剪辑</el-menu-item>
+                        </el-menu>
+                    </el-col>
+                </el-row>
+            </div>
+            <div id="main">
+                <el-row>
+                    <el-col :span="16" :offset="4">
+                        <el-steps id="steps" :active="0" simple>
+                            <el-step title="上传素材"></el-step>
+                            <el-step title="素材预处理"></el-step>
+                            <el-step title="选择案例"></el-step>
+                            <el-step title="自定义修改"></el-step>
+                            <el-step title="生成视频"></el-step>
+                        </el-steps>
+                        <el-row>
+                            <el-col :span="8">
+                                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                                    <el-image src="/img/1.jpg" fit="cover"></el-image>
+                                </el-card>
+                                <el-row style="margin-bottom: 24px;">
+                                    <el-input v-model="filter" placeholder="可选：案例筛选结果"></el-input>
+                                </el-row>
+                                <el-row>
+                                    <el-button @click="chooseFile">选择文件</el-button>
+                                    <i class="el-icon-arrow-right"></i>
+                                    <el-button @click="beginUpload" :disabled="videos.length == 0">上传素材</el-button>
+                                    <i class="el-icon-arrow-right"></i>
+                                    <el-button @click="beginPreprocess" type="primary" :disabled="!allSuccess" v-if="!loading">开始自动剪辑</el-button>
+                                    <el-button type="primary" v-else-if="loading" :loading="true">请稍等</el-button>
+                                </el-row>
+                            </el-col>
+                            <el-col :span="15" :offset="1">
+                                <div id="cards-box">
+                                    <el-card :body-style="{ padding: '0px' }" shadow="hover" v-for="video in videos" :key="video.url">
+                                        <div class="video-box">
+                                            <video :src="video.url" :type="video.type" controls>
+                                        </div>
+                                        <div class="progress-box" :style="{top: video.top + '%'}">
+                                            <el-progress v-if="video.status == 'uploading'" type="circle" :percentage="video.percentage" ></el-progress>
+                                            <el-progress v-else-if="video.status == 'success'" type="circle" :percentage="video.percentage" status="success"></el-progress>
+                                            <el-progress v-else-if="video.status == 'exception'" type="circle" :percentage="video.percentage" status="exception"></el-progress>
+                                        </div>
+                                    </el-card>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+        <input type="file" multiple="multiple" id="input" accept="video/*"/>
+    </body>
+    <!-- 引入Vue库 -->
+    <script src="/tools/vue@2-6-11.js"></script>
+    <script src="/tools/axios@0-19-2.js"></script> 
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <!-- 引入Element UI组件库 -->
+    <script src="/tools/element-ui@2-13-2-index.js"></script>
+    <!-- 引入页面脚本 -->
+    <script src="/js/edit/video-cloth-ads/upload.js"></script>
+</html>

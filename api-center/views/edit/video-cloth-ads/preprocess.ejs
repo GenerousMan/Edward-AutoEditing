@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit</title>
+        <!-- 引入Element UI样式 -->
+        <link rel="stylesheet" href="/tools/element-ui@2-13-2-index.css">
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/edit/video-cloth-ads/preprocess.css">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    </head>
+    <body>
+        <div id="app">
+            <div id="header">
+                <el-row>
+                    <el-col id="adaptive-header" :span="16" :offset="4">
+                        <img id="logo" src="/img/logo.png"/>
+                        <el-menu id="header-menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+                            <el-menu-item index="/">首页</el-menu-item>
+                            <el-menu-item index="/edit">自动剪辑</el-menu-item>
+                        </el-menu>
+                    </el-col>
+                </el-row>
+            </div>
+            <div id="main">
+                <el-row>
+                    <el-col :span="16" :offset="4">
+                        <el-steps id="steps" :active="1" finish-status="success" simple>
+                            <el-step title="上传素材"></el-step>
+                            <el-step title="素材预处理" icon="el-icon-loading"></el-step>
+                            <el-step title="选择案例"></el-step>
+                            <el-step title="自定义修改"></el-step>
+                            <el-step title="生成视频"></el-step>
+                        </el-steps>
+                        <el-row>
+                            <el-col :span="8">
+                                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                                    <el-image src="/img/1.jpg" fit="cover"></el-image>
+                                </el-card>
+                                <el-row>
+                                    <el-button v-if="!isFinished()" disabled icon="el-icon-loading">剩余时间：300s</el-button>
+                                    <el-button v-else-if="isFinished()" icon="el-icon-reading" type="primary" @click="jump('match')">查看匹配结果</el-button>
+                                    <el-button @click="standBy" disabled>暂时离开</el-button>
+                                    <el-button @click="cancelTask" type="danger" icon="el-icon-delete" disabled>取消任务</el-button>
+                                </el-row>
+                            </el-col>
+                            <el-col :span="15" :offset="1">
+                                <div id="cards-box">
+                                    <el-card :body-style="{ padding: '16px' }" shadow="hover">
+                                        <div class="title">视频转码压缩</div>
+                                        <div class="sub">some sub text</div>
+                                        <el-progress v-if="trans != 100" :text-inside="true" :stroke-width="20" :percentage="trans"></el-progress>
+                                        <el-progress v-else-if="trans == 100" :text-inside="true" :stroke-width="20" :percentage="trans" status="success"></el-progress>
+                                    </el-card>
+                                    <el-card :body-style="{ padding: '16px' }" shadow="hover">
+                                        <div class="title">人体位置识别</div>
+                                        <div class="sub">some sub text</div>
+                                        <el-progress v-if="yolo != 100" :text-inside="true" :stroke-width="20" :percentage="yolo"></el-progress>
+                                        <el-progress v-else-if="yolo == 100" :text-inside="true" :stroke-width="20" :percentage="yolo" status="success"></el-progress>
+                                    </el-card>
+                                    <el-card :body-style="{ padding: '16px' }" shadow="hover">
+                                        <div class="title">人体关节点提取</div>
+                                        <div class="sub">some sub text</div>
+                                        <el-progress v-if="alphapose != 100" :text-inside="true" :stroke-width="20" :percentage="alphapose"></el-progress>
+                                        <el-progress v-else-if="alphapose == 100" :text-inside="true" :stroke-width="20" :percentage="alphapose" status="success"></el-progress>
+                                    </el-card>
+                                    <el-card :body-style="{ padding: '16px' }" shadow="hover">
+                                        <div class="title">镜头语义计算</div>
+                                        <div class="sub">some sub text</div>
+                                        <el-progress v-if="features != 100" :text-inside="true" :stroke-width="20" :percentage="features"></el-progress>
+                                        <el-progress v-else-if="features == 100" :text-inside="true" :stroke-width="20" :percentage="features" status="success"></el-progress>
+                                    </el-card>
+                                    <el-card :body-style="{ padding: '16px' }" shadow="hover">
+                                        <div class="title">案例库匹配</div>
+                                        <div class="sub">some sub text</div>
+                                        <el-progress v-if="match != 100" :text-inside="true" :stroke-width="20" :percentage="match"></el-progress>
+                                        <el-progress v-else-if="match == 100" :text-inside="true" :stroke-width="20" :percentage="match" status="success"></el-progress>
+                                    </el-card>
+                                    <el-card :body-style="{ padding: '16px' }" shadow="hover">
+                                        <div class="title">推荐视频预渲染</div>
+                                        <div class="sub">some sub text</div>
+                                        <el-progress v-if="render != 100" :text-inside="true" :stroke-width="20" :percentage="render"></el-progress>
+                                        <el-progress v-else-if="render == 100" :text-inside="true" :stroke-width="20" :percentage="render" status="success"></el-progress>
+                                    </el-card>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+    </body>
+    <!-- 引入Vue库 -->
+    <script src="/tools/vue@2-6-11.js"></script>
+    <script src="/tools/axios@0-19-2.js"></script> 
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <!-- 引入Element UI组件库 -->
+    <script src="/tools/element-ui@2-13-2-index.js"></script>
+    <!-- 引入页面脚本 -->
+    <script src="/js/edit/video-cloth-ads/preprocess.js"></script>
+</html>

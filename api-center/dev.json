@@ -1,0 +1,7 @@
+{
+  "apps": {
+    "name": "api-center-exhibit",
+    "script": "./bin/www",
+    "watch": ["./routes", "./views"]
+  }
+}

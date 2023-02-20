@@ -1,0 +1,32 @@
+#adaptive-header {
+    position: relative;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    line-height: 48px;
+    width: 100%;
+    font-size: 20px;
+    background-color: #fff;
+    z-index: 99;
+    /* box-shadow: 0 1px 3px rgba(26,26,26,.1); */
+    border-bottom: solid 1px #e6e6e6;
+}
+
+#logo {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    height: 40px;
+    z-index: 99;
+}
+
+#header-menu {
+    padding-left: 220px;
+}
+
+.el-menu.el-menu--horizontal {
+    border-bottom: none;
+}

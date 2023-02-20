@@ -1,0 +1,49 @@
+#main {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#steps {
+    margin-bottom: 30px;
+}
+
+.el-card {
+    position: relative;
+    margin-bottom: 24px;
+    height: 200px;
+}
+
+.el-card .el-image {
+    height: 200px;
+}
+
+#cards-box{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#cards-box .el-card{
+    width: 48%;
+    /* height: 3px; */
+    text-align: left;
+}
+
+.title {
+    margin-top: 8px;
+    /* margin-left: 16px; */
+    margin-bottom: 8px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sub {
+    /* margin-left: 16px; */
+    margin-bottom: 8px;
+    font-size: 14px;
+    height: 96px;
+}
+
+.el-progress-bar {
+    /* margin: 16px; */
+}

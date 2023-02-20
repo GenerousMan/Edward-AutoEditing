@@ -1,0 +1,33 @@
+#main {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#steps {
+    margin-bottom: 30px;
+}
+
+.el-card {
+    position: relative;
+    margin-bottom: 24px;
+    height: 200px;
+}
+
+.el-card .el-image {
+    height: 200px;
+}
+
+.video-card {
+    height: 500px;
+}
+
+.video-card video {
+    width: 100%;
+    height: 500px;
+    background-color: rgb(34, 34, 34);
+    outline: none;
+}
+
+.btn-group {
+    text-align: left;
+}

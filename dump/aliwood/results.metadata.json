@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"aliwood.results"}],"uuid":"841e207510f34dff9e22817ae9d53daf"}

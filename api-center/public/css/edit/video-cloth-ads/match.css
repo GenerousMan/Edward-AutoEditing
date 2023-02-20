@@ -1,0 +1,151 @@
+#main {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#steps {
+    margin-bottom: 30px;
+}
+
+.el-card {
+    position: relative;
+    margin-bottom: 24px;
+    height: 200px;
+}
+
+.el-card .el-image {
+    height: 200px;
+}
+
+.match-card {
+    height: 300px;
+}
+
+.card-body {
+    display: flex;
+}
+
+.template-video, .preview-video{
+    height: 300px;
+    width: 300px;
+}
+
+.icon-box {
+    width: 120px;
+    height: 300px;
+    background-color: rgb(34, 34, 34);
+    color: white;
+    font-size: 24px;
+    line-height: 300px;
+}
+
+.template-video video, .preview-video video {
+    height: 300px;
+    width: 300px;
+    background-color: rgb(34, 34, 34);
+    outline: none;
+}
+
+.el-tabs--border-card > .el-tabs__content {
+    padding: 0px;
+}
+
+.el-card__body, .el-tabs {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.el-tabs--right .el-tabs__header.is-right {
+    margin-left: 0px;
+}
+
+.compare-body {
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+
+.compare-box {
+    display: flex;
+}
+
+.shot-compare {
+    height: 283px;
+    width: 132px;
+    background-color: rgb(34, 34, 34);
+    padding-left: 12px;
+}
+
+.shot-compare:last-child {
+    padding-right: 12px;
+}
+
+.shot-compare > div {
+    width: 100%;
+}
+
+.shot-index {
+    padding-top: 12px;
+    padding-bottom: 8px;
+    /* line-height: 36px; */
+    color: white;
+    font-size: 14px;
+    /* display: none; */
+}
+
+.shot-origin, .shot-preview {
+    height: 120px;
+}
+
+.shot-origin .el-image, .shot-preview .el-image {
+    width: 132px;
+    height: 120px;
+}
+
+.info .el-col {
+    height: 300px;
+    padding-top: 8px;
+}
+
+.info .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.info .sub {
+    font-size: 14px;
+    margin-top: 8px;
+    margin-left: 16px;
+    margin-bottom: 16px;
+    text-align: left;
+    height: 80px;
+}
+
+.info .percent {
+    font-weight: normal;
+    color: yellowgreen;
+}
+
+.select {
+    padding-top: 24px;
+    padding-left: 16px;
+    text-align: left;
+}
+
+.select .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.select .sub {
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.el-tabs--border-card {
+    border: none;
+}

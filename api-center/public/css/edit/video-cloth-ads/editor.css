@@ -1,0 +1,269 @@
+#main {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#steps {
+    margin-bottom: 30px;
+}
+
+.controls .el-button {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.controls .el-card {
+    margin-bottom: 16px;
+}
+
+.preview-list .el-card {
+    margin-bottom: 16px;
+}
+
+.preview-empty {
+    line-height: 100px;
+    background-color: rgba(0,0,0,0.05);
+    color: rgba(0,0,0,0.5);
+}
+
+.el-card {
+    position: relative;
+    margin-bottom: 24px;
+    height: 100px;
+}
+
+.el-card .el-image {
+    height: 100px;
+}
+
+.row {
+    display: flex;
+}
+
+.preview-card {
+    width: 100%;
+    height: 400px;
+}
+
+/* .editor {
+    display: flex;
+    height: 400px;
+} */
+
+.preview {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+.preview video {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    background-color: rgb(34, 34, 34);
+    outline: none;
+}
+
+.preview-all {
+    position: relative;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.preview-all .el-row {
+    margin-top: 16px;
+}
+
+.preview-all .el-button {
+    width: 100%;
+}
+
+.preview-all .no-preview-all {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 250px;
+    height: 250px;
+    width: 100%;
+    background-color: rgb(34, 34, 34);
+    border-radius: 4px;
+    color: rgba(255,255,255,0.9);
+    z-index: 10;
+}
+
+.preview-all video {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    background-color: rgb(34, 34, 34);
+    outline: none;
+    border-radius: 8px;
+}
+
+.no-choose-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 400px;
+    line-height: 400px;
+    background-color: rgb(34, 34, 34);
+    color: rgba(255, 255, 255, 0.9);
+    z-index: 10;
+}
+
+.pannel-card {
+    /* width: 300px; */
+    height: 400px;
+}
+
+.pannel {
+    /* width: 300px; */
+    /* padding-left: 12px;
+    padding-right: 12px; */
+    height: 400px;
+    /* background-color: rgb(34, 34, 34); */
+}
+
+.pannel .empty {
+    text-align: center;
+    line-height: 400px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 4px;
+    color: rgba(0,0,0,0.5);
+    height: 400px;
+}
+
+.title {
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.7);
+    margin-bottom: 6px;
+}
+
+.sub {
+    text-align: left;
+    font-size: 14px;
+    color: rgba(0,0,0,0.5);
+    margin-bottom: 12px;
+}
+
+.shot-select-box {
+    overflow-x: scroll;
+    margin-bottom: 24px;
+}
+
+.shot-select {
+    display: flex;
+    width: max-content;
+    padding-top: 12px;
+} 
+
+.shot-index-box {
+    display: flex;
+    width: max-content;
+}
+
+.shot {
+    position: relative;
+    top: 0;
+    width: 100px;
+    height: 100px;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    /* box-sizing: border-box; */
+    border-radius: 8px;
+    border: solid 4px transparent;
+    transition: all 200ms;
+}
+
+.shot:hover {
+    top: -8px;
+}
+
+.shot:last-child {
+    margin-right: 0px;
+}
+
+.shot .el-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+}
+
+.el-image img {
+    filter: brightness(100%);
+    transition: all 300ms;
+}
+
+.el-image:hover img {
+    filter: brightness(100%);
+}
+
+.choose {
+    border: solid 4px #409EFF;
+}
+
+.choose img{
+    filter: brightness(100%);
+}
+
+.not-choose img{
+    filter: brightness(50%);
+}
+
+.shot-index {
+    width: 100px;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 22px;
+    border: solid 1px transparent;
+    background-color: #66b1ff;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    transition: all 300ms;
+}
+
+.shot-index:first-child {
+    margin-left: 4px;
+}
+
+.shot-index.choose {
+    background-color: #409EFF;
+}
+
+.shot-index.not-choose {
+    background-color: #696969;
+}
+
+.shot-select-box::-webkit-scrollbar {
+    /* width:16px; */
+    height: 8px;
+    background-color:#ebebeb;
+    border-radius: 4px;
+}
+.shot-select-box::-webkit-scrollbar-button {
+    width: 0px;
+}
+.shot-select-box::-webkit-scrollbar-track {
+    /* background-color:#ffffff; */
+}
+.shot-select-box::-webkit-scrollbar-track-piece  { /* 4 */ }
+.shot-select-box::-webkit-scrollbar-thumb        {
+    background-color:#aaaaaa;
+    border-radius: 4px;
+}
+.shot-select-box::-webkit-scrollbar-corner       { /* 6 */ }
+.shot-select-box::-webkit-resizer                { /* 7 */ }
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .2s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}

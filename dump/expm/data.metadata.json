@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"expm.data"}],"uuid":"11c09e3b099342a0a15ca641a7ebef1b"}
