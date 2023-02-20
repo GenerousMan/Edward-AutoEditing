@@ -1,100 +1,98 @@
-# 飞影 Cut Mins - 数据后端
+# Edward - Data Backend
 
-> 备注：该README中说明的路径，除非特别指定，都是以`api-center`作为根目录。
+> Remarks: The paths described in the README, unless otherwise specified, use `api-center` as the root directory.
 
-数据后端框架`Express.js`，虽然前端工程从后端中分离出去了，但是还是使用了和前端框架有较高契合度的语言，便于开发者维护；并且基于`Node.js`的`Express`能够在简单的维护下提供较高的并发性能。
+The data back-end's framework is `Express.js`. Although the front-end project is separated from the back-end, it still uses a language that has a high degree of fit with the front-end framework, which is convenient for developers to maintain. It based on `Node.js` 's `Express`, which can provide high concurrency performance with simple maintenance.
 
-## 文件组织
+## File organization
 
-- `bin/www`：`Express`运行脚本；
-- `node_modules`：使用命令`npm install`后，包含所有运行依赖包；
-- `public`：后端的`public`可访问文件目录；
-    - `css`：旧版系统的css文件合集，不再展开说明；
-    - `examples`：示例素材的存放位置，可以被页面访问；
-    - `img`：旧版和新版系统的所有图片素材存放；
-    - `js`：旧版系统的js文件合集，不再展开说明；
-    - `media`：新版系统的所有视频素材存放；
-    - `tempoFiles`：存放一些临时生成的文件；
-        - `thumbnails`：存放生成的封面图片；
-            - `.gitignore`：用于忽略目录下的文件但保留目录；
-        - `videos`：存放生成的视频文件；
-            - `.gitignore`：用于忽略目录下的文件但保留目录；
-    - `tools`：旧版系统的各种依赖文件缓存，避免加载卡顿；
-    - `videos`：所有案例视频存放位置，每个案例包含一系列镜头的帧图片以及一个视频文件；
-    - `vue-css`：来自前端`vue`打包后的`dist/css`目录，存放页面样式文件。
-    - `vue-js`：来自前端`vue`打包后的`dist/js`目录，存放页面的脚本文件;
-    - `exhibit.html`：来自前端`vue`打包后的`dist/index.html`文件；
-    - `favicon.ico`：来自前端`vue`打包后的`dist/favicon.ico`文件，页面tab的图标
-- `routes`：旧版系统的各路由模块文件，在`app.js`中导入；
-    - `edit.js`：剪辑接口的路由文件；
-    - `index.js`：主接口的路由文件（暂时没怎么使用）；
-- `views`：`Express`的页面视图文件，旧版系统中所有的视图页面文件，不再展开说明；
-- `.gitignore`：用于忽略一些不必要的文件；
-- `app.js`：`Express`主程序，在运行脚本中会被引入并启用；
-- `package.json`：`Express`依赖的一些包的管理配置文件；
-- `dev.json`：用于`pm2`进程管理工具的配置文件，在调试的时候会使用到；
-- `product.json`：用于`pm2`进程管理工具的配置文件，在部署的时候会使用到。
+- `bin/www`: `Express` run script;
+- `node_modules`: After using the command `npm install`, it contains all running dependencies;
+- `public`: the `public` accessible file directory of the backend;
+     - `css`: a collection of css files of the old version system, no more descriptions;
+     - `examples`: the storage location of the example material, which can be accessed by the page;
+     - `img`: storage of all image materials of the old and new versions of the system;
+     - `js`: a collection of js files of the old version system, no more descriptions;
+     - `media`: storage of all video materials of the new system;
+     - `tempoFiles`: store some temporarily generated files;
+         - `thumbnails`: store the generated cover image;
+             - `.gitignore`: used to ignore files under the directory but keep the directory;
+         - `videos`: store generated video files;
+             - `.gitignore`: used to ignore files under the directory but keep the directory;
+     - `tools`: Various dependent file caches of the old system to avoid loading lag;
+     - `videos`: storage location of all case videos, each case contains frame pictures of a series of shots and a video file;
+     - `vue-css`: from the `dist/css` directory packaged by the front-end `vue`, storing page style files.
+     - `vue-js`: from the `dist/js` directory packaged by the front-end `vue`, storing the script files of the page;
+     - `exhibit.html`: from the `dist/index.html` file packaged by the front-end `vue`;
+     - `favicon.ico`: From the `dist/favicon.ico` file packaged by the front-end `vue`, the icon of the page tab
+- `routes`: each routing module file of the old system, imported in `app.js`;
+     - `edit.js`: the routing file of the clipping interface;
+     - `index.js`: the routing file of the main interface (not used much for now);
+- `views`: the page view file of `Express`, all the view page files in the old system, no more description;
+- `.gitignore`: used to ignore some unnecessary files;
+- `app.js`: `Express` main program, which will be imported and enabled in the running script;
+- `package.json`: the management configuration file for some packages that `Express` depends on;
+- `dev.json`: configuration file for `pm2` process management tool, which will be used during debugging;
+- `product.json`: The configuration file for the `pm2` process management tool, which will be used during deployment.
 
-## 环境要求
+## Environmental requirements
 
-- `node.js`：比较新的LTS版本就好。
-- `npm`：在`node`安装包里顺带安装。
-- `os`：操作系统基本上各个都OK，`node`都能够跑。
-- `pm2`：一个进程管理工具，因为`node`原本的`HTTP Server`是单进程的，一旦崩溃后无法自己重启；`pm2`可以维护`node`进程，崩溃后自动重启等操作（其实也可以管理其他环境和语言的进程，例如`Python`等）。
+- `node.js`: A newer LTS version is fine.
+- `npm`: installed incidentally in the `node` installation package.
+- `os`: Basically all operating systems are OK, and `node` can run.
+- `pm2`: a process management tool, because the original `HTTP Server` of `node` is a single process, once it crashes, it cannot restart itself; `pm2` can maintain the `node` process, automatically restart after a crash, etc. (actually It is also possible to manage processes in other environments and languages, such as `Python`, etc.).
 
-## 开始
+## start
 
-如果你是第一次运行该项目（或者是克隆来的项目，尤其是没有`node_modules`文件夹），请先在`api-center`目录下执行包安装命令，包会安装到`node_modules`目录下，这一般会需要个几分钟，取决于网络情况，如果出现安装失败的包，请酌情处理。
+If you are running this project for the first time (or a cloned project, especially if there is no `node_modules` folder), please execute the package installation command in the `api-center` directory first, and the package will be installed to the `node_modules` directory Normally, it will take a few minutes, depending on the network conditions. If there is a package that fails to install, please handle it accordingly.
 
 ```bash
 npm install
 ```
 
-注：`node_modules`目录已经在`.gitignore`中设置为不跟踪，所以里面的包不会被上传。
+Note: The `node_modules` directory has been set as untracked in `.gitignore`, so packages inside it will not be uploaded.
 
-如果没有安装`pm2`工具，请先安装，如果安装过程出现问题请参考[官方文档](https://pm2.keymetrics.io/)。
+If the `pm2` tool is not installed, please install it first. If there is a problem during the installation process, please refer to [Official Documentation](https://pm2.keymetrics.io/).
 
 ```bash
 npm install pm2 -g
 ```
 
-## 调试
+## debug
 
-`Express`在调试的时候并不支持热加载，所以需要使用`pm2`对路由接口文件进行监视`watch`，这些配置在`dev.json`中已经编写，基本上不需要修改，默认的服务端口是`4000`，在`bin/www`文件中可以修改端口，如果需要修改并且前端页面也是在调试时，请一并修改`vue`前端的`vue.config.js`中的代理端口设置。
+`Express` does not support hot loading during debugging, so you need to use `pm2` to monitor the routing interface file `watch`, these configurations have been written in `dev.json`, basically do not need to be modified, the default service The port is `4000`, you can modify the port in the `bin/www` file, if you need to modify and the front-end page is also debugging, please modify the proxy port settings in `vue.config.js` in the `vue` front-end .
 
 ```bash
 pm2 start dev.json
 ```
 
-查看pm2中运行程序的输出：
+View the output of running the program in pm2:
 
 ```bash
 pm2 log api-center-exhibit
 ```
 
-其他操作：
+Other operations:
 
 ```bash
-# 停止指定进程
+# Stop the specified process
 pm2 stop api-center-exhibit
 ```
 
 ```bash
-# 重启指定进程
+# Restart the specified process
 pm2 restart api-center-exhibit
 ```
 
 ```bash
-# 删除指定进程
+# delete the specified process
 pm2 delete api-center-exhibit
 ```
 
-## 部署
+## deployment
 
-部署时不会再去监视文件修改而重启，默认的服务端口是`4000`。
+When deploying, it will no longer monitor file modification and restart. The default service port is `4000`.
 
 ```bash
 pm2 start dev.json
 ```
-
-> 2021/01/06 by YuMi

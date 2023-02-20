@@ -1,85 +1,83 @@
-# 飞影 Cut Mins
+# Edward(飞影/Cut Mins) - Automatic Reference-Based Video Editing with Pose Style Transfer
 
-## 平台概况
+## Platform overview
 
-**飞影(Cut Mins)**，当前版本分支`v0.3-exhibit`，原本的初衷是做成可以在展厅展示的系统版本，所以在交互上做了较多的优化，最后的核心功能相较于之前的版本并没有太大的变化，为了简化系统的内容，暂时没有在新版界面中加入自定义修改的功能，但旧版的系统（包括剪辑自定义修改），在本版代码中仍可以继续访问，并且后台功能正常运行，大部分接口和新版系统共享同一套API，但因为算法后端只占用一个GPU，所以新旧平台在同时使用算法后端的API时会共享一个GPU锁，导致其中一方等待。
+**Edward(飞影/Cut Mins)**. Current version is designed to display in the exhibition hall. We have made a lot of optimization in the interaction. The core function is not changed much compared with the previous version in the paper. To simplify the content of the system, no customized modification function has been added to the new version of the interface, but the old version of the system (including editing customized modification) can still be accessed in the code of this version. Most interfaces share the same set of APIs with the new system. But because the algorithm backend only occupies one GPU, the new and old platforms will share a GPU lock when using the algorithm backend API at the same time, causing one side to wait.
 
-- 新版平台访问URL：`http://<ip>:<port>/exhibit.html#/exhibit`；
-- 旧版平台访问URL：`http://<ip>:<port>/edit/video-cloth-ads/upload`。
+- New version platform access URL: `http://<ip>:<port>/exhibit.html#/exhibit`；
+- Old version platform access URL: `http://<ip>:<port>/edit/video-cloth-ads/upload`。
 
-如果在本地运行，访问的`ip`可以填写`localhost`或者`127.0.0.1`，`port`为`4000`；桥接映射到外网时，填写服务器的外网IP和对应的映射端口即可。
+If you run this platform locally, `ip` can be `localhost` or `127.0.0.1`，and the `port` is `4000`; When bridging to the external network, fill in the server's external network IP and corresponding mapping port.
 
-新版的平台架构分为三块：
+The new platform architecture is divided into three parts:
 
-- **前端页面**：文件夹`vue-app`，用于开发新版系统的交互界面，前端框架`Vue.js`，语言`JavaScript`；
-- **数据后端**：文件夹`api-center`，作为一个中间层，将一些不需要使用到算法的接口抽离到这里，提高页面数据访问的效率，同时也便于和算法端分离地开发调试，或者未来拓展多算法后端的并发需求，使用框架`express.js`，语言`JavaScript`，数据库`mongodb`；
-- **算法后端**：文件夹`algrithm-cneter`，实现算法核心功能的接口，使用框架`Flask`，语言`Python`(3.6)，以及其他算法依赖库。
+- **Front Page**：In the folder `vue-app`, which is used to develop the interactive interface of the new system. The developing framework is `Vue.js`, with the language `JavaScript`；
+- **Data Backend**：In the folder`api-center`. As an intermediate layer, pull out some interfaces that do not need to use algorithms here, improve the efficiency of page data access, and also facilitate the development and debugging separately from the algorithm side, or expand the concurrency requirements of the multi-algorithm backend in the future. Using the framework `express. js`, language `JavaScript`, and database `mongodb`;
+- **Algorithm Backend**：in the folder `algrithm-cneter`, which contains interfaces those realize the core functions of our algorithms. It uses the framework `Flask`, and language `Python`(3.6).
 
-在各级子文件夹下有单独的`README.md`文档来说明更加细节的内容，本文档后续仅说明一些比较大的版本变动。
+There are separate `README. md` documents under subfolders to explain more details. This document will only describe some major version changes later.
 
-## 文件组织
+## Files Organization Structure
 
-- `algrithm-cneter`：算法后端；
-- `api-center`：数据后端；
-- `dump`：mongodb数据库导出数据备份；
-- `examples`：存放示例素材的备份；
-- `match-results`：存放算法执行的案例匹配结果；
-- `templates`：存放所有案例视频；
-- `uploads`：存放所有上传视频素材；
-- `vue-app`：前端页面。
+- `algrithm-cneter`：Algorithm Backend;
+- `api-center`：Data Backend;
+- `dump`：Mongodb database export data backup;
+- `examples`：Store backup of sample material;
+- `match-results`：Store the case matching results of algorithm execution;
+- `templates`：Store all case videos;
+- `uploads`：Store all uploaded video materials;
+- `vue-app`：Front pages.
 
-## 部署步骤
+## Deployment
 
-**在部署前请确保各模块自身可以顺利运行**，由于是使用`pm2`来管理所有服务进程运行，所以请在部署前确保已经安装`node.js`、`npm`、`pm2`等环境。
+**Please ensure that each module can run smoothly before deployment**，Because `pm2` is used to manage the running of all service processes, please ensure that `node. js`, `npm`, `pm2`and other environments have been installed before deployment.
 
-### 1 打包前端
+### 1 Packaging front end
 
-在`vue-app`目录下，执行打包命令：
+Execute the packaging command in the `vue-app` directory:
 
 ```bash
 npm run build
 ```
 
-打包后的文件会在生成的`vue-app/dist`目录中：
+The packaged file will be in the generated 'vue-app/list' directory:
 
-- `css`，请手动修改为`vue-css`；
-- `img`；
-- `js`，请手动修改为`vue-js`；
-- `favicon.ico`；
-- `index.html`，请手动修改为`exhibit.html`。
+- `css`, please manually change to `vue-css`;
+- `img`;
+- `js`, please manually change to `vue-js`;
+- `favicon.ico`;
+- `index. html`, please manually change it to `exhibit. html`.
 
-在`index.html`(或修改后的`exhibit.html`)中，将所有`/css/`修改为`/vue-css/`，将所有`/js/`修改为`/vue-js/`。
+In `index. html` (or modified `exhibit. html`), change all `/css/` to `/vue css/` and all `/js/` to `/vue js/`.
 
-然后将以上所有文件，复制到`api-center/public`下（除了`img`的其他同名文件或文件夹请删除）。
+Then copy all the above files to ` api-center/public '(delete other files or folders with the same name except ` img').
 
-### 2 启动数据库
+### 2 Start the Database
 
-在任意目录下，执行命令：
+In any directory, execute the command:
 
 ```bash
 sudo mongod --dbpath=/var/lib/mongodb --logpath=/var/log/mongodb/mongod.log
 ```
 
-命令中的`dbpath`和`logpath`的参数根据服务器环境情况设定，这里只是列出一个使用示例，建议用一个`screen`来管理，或者参照官方文档将`mongodb`注册为一个后台服务（就不用再自己输入上述命令挂一个进程了）。
+The parameters of `dbpath` and `logpath` in the command are set according to the server environment. Here is only an example. It is recommended to use a `screen` for management, or register `mongodb` as a background service by referring to the official document (you don't need to enter the above command to hang a process).
 
-### 3 启动数据后端
+### 3 Start the Data Backend
 
-在`api-center`目录下，执行启动命令：
+In the folder `api-center`, run the following command:
 
 ```bash
 pm2 start product.json
 ```
 
-数据后端默认部署在`4000`端口，如果要修改，请到`api-center/bin/www`文件中修改。
+The data backend is deployed on the `4000` port by default. If you want to modify it, please modify it in the `api-center/bin/www` file.
 
-### 4 启动算法后端
+### 4 Start the Algorithm Backend
 
-在`algrithm-center`目录下，执行启动命令（请先确保已切换到指定的`conda`环境下）：
+In the `algrithm-center` directory, execute the startup command (please ensure that you have switched to the specified `conda` environment):
 
 ```bash
 pm2 start process.json
 ```
 
-算法后端默认部署在`5050`端口，如果要修改，请到`algrithm-center/app.py`文件中修改。
-
-> 2021/01/05 by YuMi
+The algorithm backend is deployed on the `5050` port by default. If you want to modify it, please modify it in the `algrithm-center/app.py` file.
